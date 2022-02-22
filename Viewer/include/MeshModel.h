@@ -1,0 +1,74 @@
+#pragma once
+#include <glm/glm.hpp>
+#include <glad/glad.h>
+#include <string>
+#include "Face.h"
+struct Vertex
+{
+	glm::vec3 position;
+	glm::vec3 normal;
+	glm::vec2 textureCoords;
+};
+class MeshModel
+{
+public:
+	MeshModel(std::vector<Face> faces, std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals, const std::string& model_name);
+	MeshModel(std::vector<Face> faces, std::vector<glm::vec3> vertices, std::vector<glm::vec3> normals, std::vector<glm::vec2> textureCoords, const std::string& modelName = "");
+	virtual ~MeshModel();
+	const Face& GetFace(int index) const;
+	void printFaceAt(int index) const;
+	int GetFacesCount() const;
+	const std::string& GetModelName() const;
+	std::vector<glm::vec3> get_vertices()const;
+	std::vector<glm::vec3> get_normals()const;
+	void calcmax_min();
+	const glm::mat4x4& GetWorldTransformation() const;
+	const glm::mat4x4& GetModelTransformation() const;
+
+	void SetWorldTransformation(const glm::mat4x4& worldTransform);
+	void SetModelTransformation(const glm::mat4x4& modelTransform);
+
+	const glm::vec3& GetColor() const;
+	void SetColor(const glm::vec3& color);
+
+	const std::string& GetModelName();
+
+	const std::vector<Vertex>& GetModelVertices();
+
+	void TranslateModel(const glm::vec3& translationVector);
+	void TranslateWorld(const glm::vec3& translationVector);
+
+	void RotateXModel(double angle);
+	void RotateYModel(double angle);
+	void RotateZModel(double angle);
+	void ScaleXModel(double factor);
+	void ScaleYModel(double factor);
+	void ScaleZModel(double factor);
+	void ScaleModel(double factor);
+
+	void RotateXWorld(double angle);
+	void RotateYWorld(double angle);
+	void RotateZWorld(double angle);
+	void ScaleXWorld(double factor);
+	void ScaleYWorld(double factor);
+	void ScaleZWorld(double factor);
+	void ScaleWorld(double factor);
+
+	GLuint GetVAO() const;
+	float min_x, min_y, min_z, max_x, max_y, max_z;
+private:
+	std::vector<Face> faces;
+	std::vector<glm::vec3> vertices;
+	std::vector<glm::vec3> normals;
+	std::vector<glm::vec3> textureCoords;
+	std::string model_name;
+	std::vector<Vertex> modelVertices;
+
+	glm::mat4x4 modelTransform;
+	glm::mat4x4 worldTransform;
+	glm::vec3 color;
+
+	GLuint vbo;
+	GLuint vao;
+
+};
